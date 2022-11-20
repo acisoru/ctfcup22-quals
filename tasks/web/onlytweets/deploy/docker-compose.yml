@@ -1,0 +1,45 @@
+version: '2.4'
+
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: bot.Dockerfile
+    env_file:
+      - config.env
+    restart: unless-stopped
+    cpus: 2
+    mem_limit: 1024m
+    pids_limit: 512
+    scale: 2
+    depends_on:
+      - db
+      - backend
+
+
+  backend:
+    build:
+      context: .
+      dockerfile: app.Dockerfile
+    restart: unless-stopped
+    cpus: 1
+    mem_limit: 512m
+    pids_limit: 512
+    ports:
+      - "4321:4321"
+    env_file:
+      - config.env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    env_file:
+      - config.env
+
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+

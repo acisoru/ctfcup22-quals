@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+  math_pong:
+    build: .
+    restart: unless-stopped
+    cpus: 1
+    pids_limit: 256
+    mem_limit: 512m    
+    ports:
+      - "8181:8181"

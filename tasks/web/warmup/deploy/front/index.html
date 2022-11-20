@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Secrets</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">
+            Secrets
+        </h1>
+        <div class="block">
+            <div class="box" id="secretContent">
+
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-half">
+                <div class="block">
+
+                    <label class="label">Find secret</label>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input id="idInput" class="input" type="number" placeholder="1">
+                        </div>
+                        <div class="control">
+                            <input id="idPassword" class="input" type="text" placeholder="password">
+                        </div>
+                        <div class="control">
+                            <a class="button is-info" onclick="getSecret()">
+                                Find
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="column is-half">
+                <div class="block">
+
+                    <label class="label">Create secret</label>
+
+                    <div class="field">
+                        <div class="control">
+                            <input id="contentId" class="input" type="text" placeholder="some real secret">
+                        </div>
+                    </div>
+
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input id="createPasswordId" class="input" type="text" placeholder="password">
+                        </div>
+                        <div class="control">
+                            <a class="button is-info" onclick="createSecret()">
+                                Create
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script>
+    function getSecret() {
+        let secretId = document.getElementById('idInput').value;
+        let password = document.getElementById('idPassword').value;
+        fetch(`/api/read?secretId=${secretId}&password=${password}`).then(
+            res => {
+                if (res.ok) {
+                    res.json().then(data =>
+                        document.getElementById('secretContent').innerText = data.content
+                    );
+                } else {
+                    res.text().then(error =>
+                        document.getElementById('secretContent').innerText = error.toString()
+                    );
+                }
+            }
+        )
+    }
+
+    function createSecret() {
+        let content = document.getElementById('contentId').value;
+        let password = document.getElementById('createPasswordId').value;
+
+        if (content === "") {
+            alert("Please specify secret's content.")
+            return;
+        }
+
+        if (/[^A-Za-z0-9]/.test(password)) {
+            alert("Invalid password. Should be alphanumeric.")
+            return;
+        }
+
+        let formData = new URLSearchParams();
+        formData.append('content', content);
+        formData.append('password', password);
+
+        fetch('/api/write', {
+            body: formData,
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            method: "post"
+        }).then(res => {
+            if (res.ok) {
+                res.json().then(data => {
+                    let secretId = data.secretId;
+                    document.getElementById('secretContent').innerText = `Created secret with id = ${secretId}`;
+                    document.getElementById('idInput').value = secretId;
+                })
+            } else {
+                res.text().then(error => {
+                    document.getElementById('secretContent').innerText = error.toString()
+                })
+            }
+        })
+    }
+</script>
+</body>
+</html>

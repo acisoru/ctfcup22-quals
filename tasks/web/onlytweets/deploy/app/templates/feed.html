@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Feed{% endblock %}
+{% block main %}
+<p><a href="/create_tweet">Create tweet</a></p>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                role="tab" aria-controls="home" aria-selected="true">Feed
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                role="tab" aria-controls="profile" aria-selected="false">Private
+        </button>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <br>
+        {% for tweet in feed_tweets %}
+        <div class="card" style="width: 30rem;">
+            <div class="card-horizontal">
+                <div class="img-square-wrapper">
+                    {% if tweet.author.user_pic %}
+                    <img class="" width="150" src="{{ tweet.author.user_pic }}" alt="User pic">
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">{{ tweet.author.login }}</h6>
+                    <p class="card-text">{{ tweet.text }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <br>
+    {% for tweet in shared_tweets %}
+    <div class="card" style="width: 30rem;">
+        <div class="card-horizontal">
+            <div class="img-square-wrapper">
+                {% if tweet.author.user_pic %}
+                <img class="" width="150" src="{{ tweet.author.user_pic }}" alt="User pic">
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <h6 class="card-title">{{ tweet.author.login }}</h6>
+                <p class="card-text">{{ tweet.text }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">999</div>
+</div>
+{% endblock %}

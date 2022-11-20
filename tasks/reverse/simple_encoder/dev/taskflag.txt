@@ -1,0 +1,6 @@
+POST /data/json?MyDeeEssTeeZero=DST0 HTTP/1.0
+Host: 12345.plc.verysecureics.com
+User-Agent: HackerBrowser/13.37
+Content-Lengh: 52
+
+flag=CUP{g0l0mb_c0d3_1s_s1mul4r_t0_3l1as_g4mm4_c0d3}

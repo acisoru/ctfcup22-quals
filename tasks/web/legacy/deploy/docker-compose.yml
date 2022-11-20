@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+
+  auth:
+    build:
+      context: .
+      dockerfile: auth.Dockerfile
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: app.Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - redis
+      - auth
+    env_file:
+      - env.env
+    ports:
+      - "3210:3210"
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped

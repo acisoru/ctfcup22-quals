@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Profile - {{user.login}}{% endblock %}
+{% block main %}
+
+<img src="{{ user.user_pic}}" width="150" alt="user pic">
+
+<h5>{{user.login}}!</h5>
+
+<br>
+<div class="container">
+    {% for tweet in user.tweets %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            {% if tweet.public %}
+            <p>{{ tweet.text }}</p>
+            {% else %}
+            <p> ** PRIVATE TWEET **</p>
+            <p><a href="/buy?tweet_id={{tweet.id}}">Buy access</a></p>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

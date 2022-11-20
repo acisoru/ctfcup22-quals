@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  app:
+    build: ./
+    restart: unless-stopped
+    environment:
+      FLAG: "CUP{easy_breezy_jwt}"
+#      LISTEN_PORT: 5000
+
+    ports:
+      - "5767:5000"
+    cpus: 1
+    pids_limit: 256
+    mem_limit: 512m

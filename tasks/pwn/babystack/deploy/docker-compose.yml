@@ -1,0 +1,12 @@
+version: '2.4'
+
+services:
+  babystack:
+    build:
+      context: ./service
+      dockerfile: Dockerfile
+    ports:
+      - 13773:9000
+    restart: on-failure
+    pids_limit: 1024
+    mem_limit: 2Gb

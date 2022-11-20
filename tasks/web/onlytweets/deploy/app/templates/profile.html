@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block main %}
+<h4>Welcome to onlytweets platform, {{g.user.login}}!</h4>
+
+<img src="{{ g.user.user_pic}}" width="150" alt="user pic">
+
+<br>
+
+<form method="post" action="">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <label>
+        Set avatar (image link)
+        <input type="text" name="userpic" placeholder="http://">
+    </label>
+    <input type="submit">
+</form>
+
+<br>
+<div class="container">
+    {% for tweet in tweets %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <p>{{ tweet.text }}</p>
+
+            {% if tweet.public %}
+            <p>Public</p>
+            {% else %}
+            <p>Private</p>
+            {% endif %}
+
+            <form method="post" action="/share">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="tweet_id" value="{{tweet.id}}">
+                <label>
+                    Share with:
+                    <input type="text" name="to_user" placeholder="admin">
+                </label>
+                <input type="submit" value="share">
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

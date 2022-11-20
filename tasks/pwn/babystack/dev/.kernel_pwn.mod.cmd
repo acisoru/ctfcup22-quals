@@ -1,0 +1,1 @@
+cmd_/home/dev/ctfcup2022/kernelpwn/dev/kernel_pwn.mod := printf '%s\n'   kernel_pwn.o | awk '!x[$$0]++ { print("/home/dev/ctfcup2022/kernelpwn/dev/"$$0) }' > /home/dev/ctfcup2022/kernelpwn/dev/kernel_pwn.mod

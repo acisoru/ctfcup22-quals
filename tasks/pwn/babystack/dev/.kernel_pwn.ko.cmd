@@ -1,0 +1,1 @@
+cmd_/home/dev/ctfcup2022/kernelpwn/dev/kernel_pwn.ko := ld -r  -m elf_x86_64 -z noexecstack   --build-id=sha1  -T scripts/module.lds -o /home/dev/ctfcup2022/kernelpwn/dev/kernel_pwn.ko /home/dev/ctfcup2022/kernelpwn/dev/kernel_pwn.o /home/dev/ctfcup2022/kernelpwn/dev/kernel_pwn.mod.o;  true

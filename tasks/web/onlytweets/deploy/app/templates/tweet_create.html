@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Create tweet{% endblock %}
+{% block main %}
+<h4>Create tweet</h4>
+
+<form action='' method='post'>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <div class='form-group'>
+        <textarea name="content" rows="4" cols="50">Write your tweet...</textarea>
+    </div>
+    <div class='form-group'>
+        <input type="checkbox" id="publiccheck" name="public" value="true">
+        <label for="publiccheck">Make tweet public</label><br>
+    </div>
+    <input type='submit' value='Tweet!' class='btn btn-primary'>
+</form>
+{% endblock %}
